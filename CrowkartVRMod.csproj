@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)/$(MSBuildToolsVersion)/Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)/$(MSBuildToolsVersion)/Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{736D6720-B19E-4A61-9831-F0DE98D084DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CrowkartVRMod</RootNamespace>
+    <AssemblyName>CrowkartVRMod</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin/Debug/</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin/Release/</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- The common relative path to Crowkart on all platforms -->
+    <CrowkartRelPath>/Steam/steamapps/common/Crowkart/</CrowkartRelPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Set the path to the Crowkart folder -->
+    <CrowkartPath Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">~/.local/share$(CrowkartRelPath)</CrowkartPath>
+    <CrowkartPath Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">~/Library/Application Support$(CrowkartRelPath)</CrowkartPath>
+    <CrowkartPath Condition="$(OS) == Windows_NT">$(MSBuildProgramFiles32)$(CrowkartRelPath)/</CrowkartPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Set the path to the Crowkart executable -->
+    <CrowkartGame Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">$(CrowkartPath)Crowkart</CrowkartGame>
+    <CrowkartGame Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">$(CrowkartPath)Crowkart.app</CrowkartGame>
+    <CrowkartGame Condition="$(OS) == Windows_NT">$(CrowkartPath)Crowkart.exe</CrowkartGame>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Set the path to Crowkart's Managed folder -->
+    <ManagedPath>$(CrowkartPath)Crowkart_Data/Managed/</ManagedPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Set the path to the modded Crowkart's BepInEx folder -->
+    <BepInExPath>$(CrowkartPath)BepInEx/</BepInExPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CrowkartVRMod.cs" />
+    <Compile Include="KartInputVR.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\AssetManager.cs" />
+    <Compile Include="Utilities\LogUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- These reference paths assume you already have Crowkart and BepInEx installed -->
+    <Reference Include="AK.Wwise.Unity.MonoBehaviour">
+      <HintPath>$(ManagedPath)$(ManagedPath)AK.Wwise.Unity.MonoBehaviour.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedPath)Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExPath)core/BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="SteamVR">
+      <HintPath>$(ManagedPath)SteamVR.dll</HintPath>
+    </Reference>
+    <Reference Include="SteamVR_Actions">
+      <HintPath>$(ManagedPath)SteamVR_Actions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Unity.Multiplayer.MLAPI.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedPath)Unity.Multiplayer.MLAPI.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.Management">
+      <HintPath>$(ManagedPath)Unity.XR.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.XR.OpenVR, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedPath)Unity.XR.OpenVR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedPath)UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(ManagedPath)UnityEngine.AssetBundleModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedPath)UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedPath)UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedPath)UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VRModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(ManagedPath)UnityEngine.VRModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\player_prefabs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)/Microsoft.CSharp.targets" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <!-- Copy the built DLL to the BepInEx plugins folder -->
+    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(BepInExPath)plugins&quot;" />
+    <!-- Start Crowkart -->
+    <Exec Command="&quot;$(CrowkartGame)&quot;" />
+  </Target>
+</Project>
